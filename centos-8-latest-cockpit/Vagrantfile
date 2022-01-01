@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/8"
+  config.vm.box_check_update = true
+
+  # for CentOS8
+  # https://github.com/dotless-de/vagrant-vbguest/blob/main/CHANGELOG.md#0240beta1-2020-04-28
+  config.vbguest.installer_options = { allow_kernel_upgrade: true }
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "share/", "/mnt/host"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "centos-8-2011.0-cockpit"
+    vb.gui = false
+    vb.cpus = 1
+    vb.memory = 1024
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    dnf update -y
+    dnf upgrade -y
+    dnf install -y epel-release
+    dnf install -y \
+      cockpit \
+      cockpit-composer \
+      cockpit-dashboard \
+      cockpit-doc \
+      cockpit-machines \
+      cockpit-pcp \
+      cockpit-session-recording \
+      cockpit-storaged
+    systemctl enable --now cockpit.socket
+  SHELL
+end
