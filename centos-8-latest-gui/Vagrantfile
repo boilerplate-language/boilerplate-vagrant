@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/8"
+  config.vm.box_check_update = true
+
+  # for CentOS8
+  # https://github.com/dotless-de/vagrant-vbguest/blob/main/CHANGELOG.md#0240beta1-2020-04-28
+  config.vbguest.installer_options = { allow_kernel_upgrade: true }
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "share/", "/mnt/host"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "centos-8-gui"
+    vb.gui = true
+    vb.cpus = 2
+    vb.memory = 2048
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    dnf update -y
+    dnf upgrade -y
+
+    # GUIインストール
+    dnf groups install -y "Server with GUI"
+    systemctl set-default graphical.target
+
+    # 日本語化
+    dnf install -y ibus-kkc 
+  SHELL
+end
