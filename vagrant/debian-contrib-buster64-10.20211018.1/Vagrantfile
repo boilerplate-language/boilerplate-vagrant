@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_version = "10.20211018.1"
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "share/", "/mnt/host"
+  config.vm.synced_folder "../../_share/", "/mnt/host"
   
   config.vm.provider "virtualbox" do |vb|
     vb.name = "debian-contrib-buster64-10.20211018.1"

@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vbguest.installer_options = { allow_kernel_upgrade: true }
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "share/", "/mnt/host"
+  config.vm.synced_folder "../../_share/", "/mnt/host"
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = "centos-8-gui"

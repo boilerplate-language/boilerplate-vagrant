@@ -6,10 +6,10 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = true
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "share/", "/mnt/host"
+  config.vm.synced_folder "../../_share/", "/mnt/host"
   
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "ubuntu-focal64-20201117.0.0"
+    vb.name = "ubuntu-focal64"
     vb.gui = false
     vb.cpus = 1
     vb.memory = 1024
