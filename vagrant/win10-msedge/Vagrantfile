@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "MSEdge/Win10"
+  config.vm.box_check_update = false
+
+  # Passw0rd!
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "windows"
+    vb.gui = true
+    vb.cpus = 4
+    vb.memory = 4096
+    vb.customize [
+      "modifyvm", :id,
+      "--clipboard", "bidirectional", # クリップボードの共有
+      "--accelerate3d", "on",
+      "--hwvirtex", "on",
+      "--nestedpaging", "on",
+      "--largepages", "on"
+    ]
+  end
+end

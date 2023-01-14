@@ -7,3 +7,5 @@
 *.iso
 
 .metadata.json
+
+.tmp/
